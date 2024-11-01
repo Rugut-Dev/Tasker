@@ -32,7 +32,7 @@ The **Task Management App** is designed to simplify task organization and assign
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/tasker-api.git
+   git clone https://github.com/rugut-dev/tasker-api.git
    cd tasker-api
    ```
 
