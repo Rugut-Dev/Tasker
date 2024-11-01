@@ -7,8 +7,23 @@ using TaskerAPI.Services;
 using TaskerAPI.Middleware;
 using FluentValidation.AspNetCore;
 using TaskerAPI.Validators;
+using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add CORS configuration before other services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000") // Your Next.js default port
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .WithExposedHeaders("Authorization")  // Allow Authorization header
+                  .AllowCredentials();
+        });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -54,6 +69,9 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
+
+// Add CORS middleware before routing
+app.UseCors("AllowFrontend");
 
 // Add this before other middleware
 app.UseMiddleware<GlobalExceptionHandler>();
