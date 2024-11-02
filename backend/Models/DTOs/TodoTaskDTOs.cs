@@ -34,5 +34,6 @@ namespace TaskerAPI.Models.DTOs
         public TaskStatus Status { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime CreatedAt { get; set; }
+        // public string UserName { get; set; }
     }
 }

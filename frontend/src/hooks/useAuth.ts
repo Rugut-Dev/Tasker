@@ -3,6 +3,11 @@ import { auth } from '@/lib/auth';
 
 interface AuthState {
   isAuthenticated: boolean;
+  user: {
+    id: number;
+    email: string;
+    role: string;
+  } | null;
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;

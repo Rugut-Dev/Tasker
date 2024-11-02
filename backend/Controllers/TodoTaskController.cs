@@ -130,6 +130,50 @@ namespace TaskerAPI.Controllers
             return NoContent();
         }
 
+        // Add these methods at the bottom of your controller
+
+        [HttpGet("all")]
+        [Authorize(Policy = PolicyService.RequireAdmin)]
+        public async Task<ActionResult<IEnumerable<TodoTaskResponseDTO>>> GetAllTasks()
+        {
+            var tasks = await _context.Tasks
+                .Include(t => t.User)
+                .Select(t => new TodoTaskResponseDTO
+                {
+            Id = t.Id,
+            Title = t.Title,
+            Description = t.Description,
+            Status = t.Status,
+                    DueDate = t.DueDate,
+                    CreatedAt = t.CreatedAt,
+                    // UserName = t.User.Username
+                })
+                .ToListAsync();
+
+            return tasks;
+        }
+
+        [HttpGet("department")]
+        [Authorize(Policy = PolicyService.RequireManager)]
+        public async Task<ActionResult<IEnumerable<TodoTaskResponseDTO>>> GetDepartmentTasks()
+        {
+    var tasks = await _context.Tasks
+                .Include(t => t.User)
+                .Select(t => new TodoTaskResponseDTO
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Status = t.Status,
+                    DueDate = t.DueDate,
+                    CreatedAt = t.CreatedAt,
+                    // UserName = t.User.Username
+                })
+                .ToListAsync();
+
+            return tasks;
+        }
+
         // [HttpGet("all")]
         // [Authorize(Policy = PolicyService.RequireAdmin)]
         // public async Task<ActionResult<IEnumerable<TodoTaskResponseDTO>>> GetAllTasks()
